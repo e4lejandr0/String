@@ -11,6 +11,7 @@ namespace ea
 {
     String::String(const char* str)
     {
+        std::cerr << "constructing" << std::endl;
         if(str != nullptr) {
             try {
                 length_ = strlen(str);
@@ -30,6 +31,7 @@ namespace ea
     }
     String::String(const String& other)
     {
+        std::cerr << "constructing" << std::endl;
         try{
             length_ = other.length_;
             capacity_ = other.capacity_;
@@ -83,9 +85,10 @@ namespace ea
     }
     String::~String()
     {
+        std::cerr << "destroying" << std::endl;
         delete[] data_;
     }
-    
+
     std::ostream& operator<<(std::ostream& stream, const String& string)
     {
         stream << string.c_str(); //this might not be strictly null-terminated
