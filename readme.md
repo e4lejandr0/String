@@ -1,3 +1,3 @@
 Naive string implementation in C++
 
-#Needs a major overwrite
+#Needs a major rewrite
