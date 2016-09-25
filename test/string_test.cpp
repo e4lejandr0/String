@@ -1,21 +1,21 @@
 #include <iostream>
 #include <fstream>
 
-#include "../src/include/String.h"
+#include "../src/include/string.h"
 
 #define SYNTAX_ERROR 1
 
 class record 
 {
 public:
-    ea::string property;
-    std::vector<ea::string> values;
+    ea::basic_string<char> property;
+    std::vector<ea::basic_string<char>> values;
     bool is_valid;
 };
 
-record get_record(const ea::string& line, int line_number)
+record get_record(ea::basic_string<char>& line)
 {
-    record record_r{"", true};
+    record record_r{"", std::vector<ea::basic_string<char>>(), true};
 
     for(auto i = line.begin(); i != line.end(); ++i) {
         if(*i == '-') {
@@ -23,18 +23,18 @@ record get_record(const ea::string& line, int line_number)
         }
     }
 
-    std::vector<ea::string> data = line.split('|');
+    std::vector<ea::basic_string<char>> data = line.split('|');
 
     if(data.size() == 2) {
         record_r.property = data[0];
-        for(ea::string value : data[1].split(",")) {
+        for(ea::basic_string<char> value : data[1].split(',')) {
             value.trim();
             record_r.values.push_back(value);
         }
     } 
     else {
         std::cerr << "Syntax error in line(more separators than expected): " << std::endl;
-        std::cerr << i << ":" << line;
+        std::cerr << line << std::endl;
         record_r.is_valid = false;
     }
     return record_r;
@@ -45,18 +45,18 @@ record get_record(const ea::string& line, int line_number)
 int main(int argc, char** argv)
 {
     std::ifstream config_file("test.cfg");
-    ea::string line;
+    ea::basic_string<char> line;
     std::vector<record> records;
     record current;
     
     do{
         current = get_record(line);
         records.push_back(current);
-    } while (current.is_valid && line << config_file);
+    } while (current.is_valid && config_file >> line);
     if(current.is_valid) {
         for(auto r : records) {
             std::cout << current.property << " = ["; 
-            for(const ea::string& value : current.values) {
+            for(const ea::basic_string<char>& value : current.values) {
                 std::cout << value;
                 std::cout << ", ";
             }
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
         }
     }
     else {
-        return SYNTAX ERROR;
+        return SYNTAX_ERROR;
     }
 
     return 0;
