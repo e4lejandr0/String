@@ -52,7 +52,7 @@ namespace ea
         {
             auto current = end()-1;
             while(*current != character) {
-                ++current;
+                --current;
             }
             return current;
         }
@@ -94,7 +94,7 @@ namespace ea
         {
             std::swap(first.data_, second.data_);
             std::swap(first.length_, second.length_);
-            std::swap(first.capacity_, second.capacity_);
+            std::swap(first.capacity_, second.capacity_);-
         }
         ~basic_string()
         {

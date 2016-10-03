@@ -1,3 +1,4 @@
 Naive string implementation in C++
 
-#Needs a major rewrite
+
+Work in Progress...
